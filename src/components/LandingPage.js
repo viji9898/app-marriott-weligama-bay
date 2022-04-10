@@ -1,7 +1,24 @@
 import { Button } from "antd";
 import logo from "../logo.svg";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export const LandingPage = ({ helloWorld }) => {
+export const LandingPage = () => {
+  const [helloWorld, setHelloWorld] = useState("");
+
+  const getHelloWorld = () => {
+    axios
+      .get(".netlify/functions/getHelloWorld", {
+        baseURL: "/",
+      })
+      .then(function (response) {
+        setHelloWorld(response.data.data);
+      });
+  };
+  useEffect(() => {
+    getHelloWorld();
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">

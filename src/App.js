@@ -1,39 +1,21 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { LandingPage } from "./components/LandingPage";
+import { Main } from "./pages/Main";
+import { Budget } from "./pages/Budget";
+import { Directory } from "./pages/Directory";
+import { EditBudget } from "./admin/editbudget";
 
 function App() {
-  const [helloWorld, setHelloWorld] = useState("");
-
-  const getHelloWorld = () => {
-    axios
-      .get(".netlify/functions/getHelloWorld", {
-        baseURL: "/",
-      })
-      .then(function (response) {
-        setHelloWorld(response.data.data);
-      });
-  };
-  useEffect(() => {
-    getHelloWorld();
-  }, []);
-
   return (
     <Router>
       <Routes>
-        <Route
-          exact
-          path="/"
-          element={<LandingPage helloWorld={helloWorld} />}
-        />
-        <Route
-          exact
-          path="/*"
-          element={<LandingPage helloWorld={helloWorld} />}
-        />
+        <Route exact path="/" element={<Main />}>
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/directory" element={<Directory />} />
+        </Route>
+        <Route exact path="/*" element={<Main />} />
+        <Route exact path="/admin" element={<EditBudget />} />
       </Routes>
     </Router>
   );
